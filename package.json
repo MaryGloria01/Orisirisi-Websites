@@ -1,0 +1,25 @@
+{
+  "name": "orisirisi-websites",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:restaurant": "turbo run dev --filter=restaurant",
+    "dev:parent": "turbo run dev --filter=parent",
+    "dev:afrixpressions": "turbo run dev --filter=afrixpressions",
+    "build": "turbo run build",
+    "build:restaurant": "turbo run build --filter=restaurant",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

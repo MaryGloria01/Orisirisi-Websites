@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { @apply bg-brand-black text-brand-text-light font-inter overflow-x-hidden; }
+  ::selection { background-color: rgba(247,148,29,0.3); color: #FDF6EC; }
+  h1, h2, h3 { @apply font-playfair; }
+}
+
+@layer components {
+  .container-site { @apply max-w-[1400px] mx-auto px-6 md:px-10 xl:px-16; }
+  .eyebrow { @apply text-brand-orange text-[11px] font-inter font-medium uppercase; letter-spacing: 0.28em; }
+  .kente-divider {
+    height: 5px;
+    background: repeating-linear-gradient(90deg, #F7941D 0px,#F7941D 30px,#D4A017 30px,#D4A017 60px,#1C1C1C 60px,#1C1C1C 90px,#5C3A1E 90px,#5C3A1E 120px);
+  }
+  .btn-primary {
+    @apply relative inline-flex items-center gap-3 px-8 py-4 bg-brand-orange text-brand-black font-inter font-semibold text-sm transition-all duration-300;
+    letter-spacing: 0.06em;
+    clip-path: polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  }
+  .btn-primary:hover { @apply scale-[1.02]; filter: brightness(1.08); }
+  .btn-ghost {
+    @apply relative inline-flex items-center gap-3 px-8 py-4 border border-brand-text-muted text-brand-text-light font-inter font-medium text-sm transition-all duration-300;
+    letter-spacing: 0.06em;
+  }
+  .btn-ghost:hover { @apply border-brand-orange text-brand-orange; }
+}

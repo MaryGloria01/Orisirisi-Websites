@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom properties ──────────────────────────────────────── */
+:root {
+  --orange:        #F7941D;
+  --orange-dark:   #D4780A;
+  --black:         #0A0A0A;
+  --dark:          #141414;
+  --cream:         #FDF6EC;
+  --earth:         #5C3A1E;
+  --gold:          #D4A017;
+  --text-light:    #E8D5B7;
+  --text-muted:    #9A8B7A;
+  --scroll-thumb:  #F7941D;
+  --scroll-track:  #1C1C1C;
+}
+
+/* ─── Base reset & typography ────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-brand-black text-brand-text-light font-inter overflow-x-hidden;
+  }
+
+  ::selection {
+    background-color: rgba(247, 148, 29, 0.3);
+    color: #FDF6EC;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar         { width: 4px; }
+  ::-webkit-scrollbar-track   { background: var(--scroll-track); }
+  ::-webkit-scrollbar-thumb   { background: var(--scroll-thumb); border-radius: 2px; }
+
+  /* Headings default to Playfair */
+  h1, h2, h3 { @apply font-playfair; }
+}
+
+/* ─── Utility components ─────────────────────────────────────── */
+@layer components {
+
+  .container-site {
+    @apply max-w-[1400px] mx-auto px-6 md:px-10 xl:px-16;
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    @apply text-brand-orange text-[11px] font-inter font-medium uppercase;
+    letter-spacing: 0.28em;
+  }
+
+  /* Kente divider */
+  .kente-divider {
+    height: 5px;
+    background: repeating-linear-gradient(
+      90deg,
+      #F7941D 0px,   #F7941D 30px,
+      #D4A017 30px,  #D4A017 60px,
+      #1C1C1C 60px,  #1C1C1C 90px,
+      #5C3A1E 90px,  #5C3A1E 120px
+    );
+    background-size: 120px 100%;
+  }
+
+  .kente-divider-animated {
+    height: 5px;
+    background: repeating-linear-gradient(
+      90deg,
+      #F7941D 0px,   #F7941D 30px,
+      #D4A017 30px,  #D4A017 60px,
+      #1C1C1C 60px,  #1C1C1C 90px,
+      #5C3A1E 90px,  #5C3A1E 120px
+    );
+    background-size: 120px 100%;
+    animation: kenteSlide 8s linear infinite;
+  }
+
+  /* Adinkra geometric border */
+  .adinkra-border {
+    border: 1px solid rgba(247, 148, 29, 0.2);
+    position: relative;
+  }
+
+  .adinkra-border::before,
+  .adinkra-border::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: #F7941D;
+    border-style: solid;
+  }
+
+  .adinkra-border::before {
+    top: -1px; left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+
+  .adinkra-border::after {
+    bottom: -1px; right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Primary CTA button */
+  .btn-primary {
+    @apply relative inline-flex items-center gap-3 px-8 py-4 bg-brand-orange text-brand-black
+           font-inter font-semibold text-sm overflow-hidden transition-all duration-300;
+    letter-spacing: 0.06em;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-brand-gold opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-primary:hover::before   { @apply opacity-100; }
+  .btn-primary:hover           { @apply scale-[1.02] shadow-orange-md; }
+
+  /* Ghost CTA button */
+  .btn-ghost {
+    @apply relative inline-flex items-center gap-3 px-8 py-4
+           border border-brand-text-muted text-brand-text-light
+           font-inter font-medium text-sm overflow-hidden transition-all duration-300;
+    letter-spacing: 0.06em;
+  }
+
+  .btn-ghost::before {
+    content: '';
+    @apply absolute inset-0 bg-white/5 opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-ghost:hover { @apply border-brand-orange text-brand-orange; }
+  .btn-ghost:hover::before { @apply opacity-100; }
+
+  /* Section heading */
+  .section-title {
+    @apply font-playfair text-brand-cream leading-[1.05];
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+  }
+
+  .section-title-orange {
+    @apply font-playfair text-brand-orange leading-[1.05] italic;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+  }
+}
+
+/* ─── Global animations ──────────────────────────────────────── */
+@keyframes kenteSlide {
+  0%   { background-position: 0 0; }
+  100% { background-position: 120px 0; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px);   }
+  50%      { transform: translateY(-14px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(247,148,29,0.3); }
+  50%      { box-shadow: 0 0 55px rgba(247,148,29,0.65); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Shimmer text effect */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #F7941D 0%,
+    #D4A017 40%,
+    #FFA940 60%,
+    #F7941D 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+/* Horizontal scroll snap */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.scroll-snap-x::-webkit-scrollbar { display: none; }
+
+.snap-start { scroll-snap-align: start; }
+
+/* Clip path shapes */
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+.clip-diagonal-rev {
+  clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* GSAP initial hide – prevents flash of unstyled content */
+.gsap-hide { opacity: 0; }
