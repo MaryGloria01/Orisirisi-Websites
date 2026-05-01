@@ -25,19 +25,19 @@ const STATS = [
 ]
 
 export default function OurStory() {
-  const sectionRef  = useRef<HTMLElement>(null)
-  const statsRef    = useRef<HTMLDivElement>(null)
-  const quoteRef    = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const statsRef   = useRef<HTMLDivElement>(null)
+  const quoteRef   = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
-    /* Scroll-scrub word reveal */
+    /* Scroll-scrub word reveal — light palette */
     const words = sectionRef.current?.querySelectorAll('.story-word')
     if (words) {
       gsap.fromTo(words,
-        { opacity: 0.08, color: '#9A8B7A' },
+        { opacity: 0.1, color: 'rgba(92,58,30,0.25)' },
         {
           opacity: 1,
-          color: '#E8D5B7',
+          color: '#4A2E10',
           stagger: 0.04,
           ease: 'none',
           scrollTrigger: {
@@ -50,39 +50,28 @@ export default function OurStory() {
       )
     }
 
-    /* Stats count-up */
     gsap.from('.stat-item', {
-      opacity: 0,
-      y: 40,
-      stagger: 0.12,
-      duration: 0.8,
+      opacity: 0, y: 40,
+      stagger: 0.12, duration: 0.8,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: statsRef.current,
-        start: 'top 80%',
-      },
+      scrollTrigger: { trigger: statsRef.current, start: 'top 80%' },
     })
 
-    /* Quote slide in */
     gsap.from(quoteRef.current, {
-      opacity: 0,
-      x: -40,
-      duration: 1,
+      opacity: 0, x: -40, duration: 1,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: quoteRef.current,
-        start: 'top 80%',
-      },
+      scrollTrigger: { trigger: quoteRef.current, start: 'top 80%' },
     })
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="relative bg-brand-cream noise-overlay py-24 md:py-36">
+    <section ref={sectionRef} className="relative bg-surface py-24 md:py-36">
+      <div className="absolute inset-0 pointer-events-none glow-orange-topright opacity-50" />
       <div className="container-site">
 
         {/* Top label */}
         <div className="flex items-center gap-4 mb-16">
-          <div className="kente-divider w-12" style={{ height: 4 }} />
+          <div className="kente-divider w-12 h-1" />
           <span className="eyebrow">Our Story</span>
         </div>
 
@@ -90,22 +79,21 @@ export default function OurStory() {
 
           {/* Left — headline + story text */}
           <div className="lg:col-span-7">
-            <h2 className="font-playfair font-bold text-brand-black leading-[1.05] mb-10"
-              style={{ fontSize: 'clamp(2.2rem, 4vw, 3.8rem)' }}>
+            <h2 className="font-playfair font-bold text-text-head text-section-md leading-[1.05] mb-10">
               A Culinary Celebration <br />
               <span className="italic text-brand-orange">of the Entire Continent</span>
             </h2>
 
-            <p className="font-inter text-base leading-loose text-brand-earth" aria-hidden="true">
+            <p className="font-inter text-base leading-loose text-text-body" aria-hidden="true">
               {STORY_WORDS.map((word, i) => (
-                <span key={i} className="story-word inline-block mr-[0.28em]" style={{ opacity: 0.08 }}>
+                <span key={i} className="story-word inline-block mr-[0.28em] opacity-10">
                   {word}
                 </span>
               ))}
             </p>
 
             <div className="mt-10">
-              <Link href="/about" className="btn-ghost text-sm border-brand-earth text-brand-earth hover:border-brand-orange hover:text-brand-orange inline-flex items-center gap-2.5">
+              <Link href="/about" className="btn-ghost text-sm inline-flex items-center gap-2.5">
                 Our Full Story
                 <ChevronRight size={14} />
               </Link>
@@ -117,11 +105,10 @@ export default function OurStory() {
 
             {/* Pull quote */}
             <div ref={quoteRef} className="relative pl-6 border-l-2 border-brand-orange">
-              <blockquote className="font-cormorant italic text-brand-black leading-snug"
-                style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)' }}>
+              <blockquote className="font-cormorant italic text-text-head text-section-md leading-snug">
                 "Every meal tells a story. We don't just serve food — we serve heritage, identity, and belonging."
               </blockquote>
-              <cite className="block mt-3 font-inter text-[11px] text-brand-text-muted not-italic tracking-widest uppercase">
+              <cite className="block mt-3 font-inter text-[11px] text-text-muted not-italic tracking-widest uppercase">
                 Orisirisi African Restaurant
               </cite>
             </div>
@@ -129,10 +116,9 @@ export default function OurStory() {
             {/* Stats grid */}
             <div ref={statsRef} className="grid grid-cols-2 gap-6">
               {STATS.map(({ value, label }) => (
-                <div key={label} className="stat-item adinkra-border p-5 bg-white/60">
+                <div key={label} className="stat-item adinkra-card bg-white border border-[rgba(92,58,30,0.1)] p-5 shadow-card">
                   <p className="font-playfair text-3xl font-bold text-brand-orange mb-1">{value}</p>
-                  <p className="font-inter text-[11px] text-brand-earth uppercase tracking-wide leading-snug"
-                    style={{ whiteSpace: 'pre-line' }}>
+                  <p className="font-inter text-[11px] text-text-body uppercase tracking-wide leading-snug whitespace-pre-line">
                     {label}
                   </p>
                 </div>

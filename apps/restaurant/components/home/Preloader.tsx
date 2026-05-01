@@ -13,14 +13,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const counterRef             = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    /* Animate loading bar and counter */
     const ctx = gsap.context(() => {
       gsap.to(barRef.current, {
         width: '100%',
         duration: 2.2,
         ease: 'power2.inOut',
       })
-
       gsap.to({ val: 0 }, {
         val: 100,
         duration: 2.2,
@@ -55,13 +53,15 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             scale: 1.04,
             transition: { duration: 0.75, ease: [0.43, 0.13, 0.23, 0.96] },
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-black overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-surface overflow-hidden"
         >
-          {/* Ambient glow */}
+          {/* Warm ambient glow */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full"
-              style={{ background: 'radial-gradient(ellipse, rgba(247,148,29,0.08) 0%, transparent 65%)' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full glow-orange-center" />
           </div>
+
+          {/* Subtle weave texture */}
+          <div className="absolute inset-0 pointer-events-none kente-bg opacity-40" />
 
           {/* Restaurant name — letters stagger in */}
           <div className="flex items-end gap-0 mb-2 overflow-hidden">
@@ -75,8 +75,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
                   duration: 0.7,
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
-                className="font-playfair font-bold text-brand-cream"
-                style={{ fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', lineHeight: 1 }}
+                className="font-playfair font-bold text-text-head text-[clamp(2.8rem,7vw,5.5rem)] leading-none"
               >
                 {char}
               </motion.span>
@@ -95,17 +94,14 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
           {/* Loading bar track */}
           <div className="w-[260px] sm:w-[380px] relative">
-            <div className="w-full h-[1px] bg-brand-dark-border/60 overflow-hidden">
+            <div className="w-full h-[1px] bg-[rgba(92,58,30,0.2)] overflow-hidden">
               <div
                 ref={barRef}
-                className="h-full bg-brand-orange"
-                style={{ width: '0%' }}
+                className="h-full bg-brand-orange w-0"
               />
             </div>
-
-            {/* Counter */}
             <div className="flex justify-between items-center mt-3">
-              <span className="font-inter text-[10px] text-brand-text-muted tracking-widest uppercase">
+              <span className="font-inter text-[10px] text-text-muted tracking-widest uppercase">
                 Loading
               </span>
               <span
@@ -117,10 +113,9 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             </div>
           </div>
 
-          {/* Bottom kente strip — slides in */}
+          {/* Bottom kente strip */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 kente-divider"
-            style={{ height: 6 }}
+            className="absolute bottom-0 left-0 right-0 kente-divider h-[6px]"
             initial={{ scaleX: 0, transformOrigin: 'left center' }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.3, duration: 2, ease: 'linear' }}

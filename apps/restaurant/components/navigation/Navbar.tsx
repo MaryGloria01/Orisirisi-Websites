@@ -50,7 +50,7 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled
-            ? 'bg-brand-black/95 backdrop-blur-md border-b border-brand-dark-border/60 py-3'
+            ? 'bg-white/96 backdrop-blur-md border-b border-[rgba(92,58,30,0.12)] py-3 shadow-warm'
             : 'bg-transparent py-5'
         )}
       >
@@ -58,7 +58,10 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/home" className="group flex flex-col leading-none">
-            <span className="font-playfair text-xl font-bold text-brand-cream tracking-tight group-hover:text-brand-orange transition-colors duration-300">
+            <span className={cn(
+              'font-playfair text-xl font-bold tracking-tight transition-colors duration-300',
+              scrolled ? 'text-text-head group-hover:text-brand-orange' : 'text-white group-hover:text-brand-orange'
+            )}>
               ORISIRISI
             </span>
             <span className="font-inter text-[9px] font-medium text-brand-orange tracking-[0.28em] uppercase mt-0.5">
@@ -78,7 +81,9 @@ export default function Navbar() {
                     'after:transition-all after:duration-300',
                     pathname === href
                       ? 'text-brand-orange after:w-full'
-                      : 'text-brand-text-muted hover:text-brand-cream after:w-0 hover:after:w-full'
+                      : scrolled
+                        ? 'text-text-body hover:text-text-head after:w-0 hover:after:w-full'
+                        : 'text-white/80 hover:text-white after:w-0 hover:after:w-full'
                   )}
                 >
                   {label}
@@ -93,7 +98,10 @@ export default function Navbar() {
               href="https://orisirisiafrica.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 font-inter text-[11px] text-brand-text-muted hover:text-brand-orange transition-colors duration-300"
+              className={cn(
+                'flex items-center gap-1.5 font-inter text-[11px] hover:text-brand-orange transition-colors duration-300',
+                scrolled ? 'text-text-muted' : 'text-white/70'
+              )}
               style={{ letterSpacing: '0.08em' }}
             >
               <ExternalLink size={11} />
@@ -110,7 +118,10 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMenuOpen(v => !v)}
-            className="lg:hidden p-2 text-brand-text-light hover:text-brand-orange transition-colors duration-300"
+            className={cn(
+              'lg:hidden p-2 hover:text-brand-orange transition-colors duration-300',
+              scrolled ? 'text-text-body' : 'text-white'
+            )}
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait">
@@ -130,7 +141,7 @@ export default function Navbar() {
               initial="closed"
               animate="open"
               exit="closed"
-              className="lg:hidden overflow-hidden bg-brand-dark/98 backdrop-blur-md border-t border-brand-dark-border/40"
+              className="lg:hidden overflow-hidden bg-white/98 backdrop-blur-md border-t border-[rgba(92,58,30,0.1)]"
             >
               <div className="container-site py-6 flex flex-col gap-1">
                 {NAV_LINKS.map(({ label, href }, i) => (
@@ -144,10 +155,10 @@ export default function Navbar() {
                       href={href}
                       onClick={() => setMenuOpen(false)}
                       className={cn(
-                        'block py-3.5 px-4 font-playfair text-2xl border-b border-brand-dark-border/30 transition-all duration-300',
+                        'block py-3.5 px-4 font-playfair text-2xl border-b border-[rgba(92,58,30,0.08)] transition-all duration-300',
                         pathname === href
                           ? 'text-brand-orange'
-                          : 'text-brand-text-light hover:text-brand-orange hover:pl-7'
+                          : 'text-text-head hover:text-brand-orange hover:pl-7'
                       )}
                     >
                       {label}

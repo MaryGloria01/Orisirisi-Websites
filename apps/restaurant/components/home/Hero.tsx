@@ -21,7 +21,7 @@ export default function Hero({ isReady }: HeroProps) {
   useGSAP(() => {
     if (!bgRef.current) return
     gsap.to(bgRef.current, {
-      yPercent: 35,
+      yPercent: 30,
       ease: 'none',
       scrollTrigger: {
         trigger: containerRef.current,
@@ -32,7 +32,7 @@ export default function Hero({ isReady }: HeroProps) {
     })
   }, { scope: containerRef })
 
-  /* Floating particles (canvas) */
+  /* Floating particles — warm orange/gold on light bg */
   useEffect(() => {
     const canvas = particlesRef.current
     if (!canvas) return
@@ -46,16 +46,16 @@ export default function Hero({ isReady }: HeroProps) {
     resize()
     window.addEventListener('resize', resize)
 
-    type Particle = { x: number; y: number; r: number; vx: number; vy: number; alpha: number; va: number }
-
-    const particles: Particle[] = Array.from({ length: 55 }, () => ({
+    type Particle = { x: number; y: number; r: number; vx: number; vy: number; alpha: number; va: number; gold: boolean }
+    const particles: Particle[] = Array.from({ length: 60 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 2.2 + 0.4,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -(Math.random() * 0.5 + 0.15),
-      alpha: Math.random() * 0.6 + 0.1,
-      va: (Math.random() - 0.5) * 0.008,
+      r: Math.random() * 2.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: -(Math.random() * 0.45 + 0.12),
+      alpha: Math.random() * 0.35 + 0.08,
+      va: (Math.random() - 0.5) * 0.006,
+      gold: Math.random() > 0.6,
     }))
 
     let raf: number
@@ -65,11 +65,13 @@ export default function Hero({ isReady }: HeroProps) {
         p.x += p.vx
         p.y += p.vy
         p.alpha += p.va
-        if (p.alpha <= 0.05 || p.alpha >= 0.75) p.va *= -1
+        if (p.alpha <= 0.04 || p.alpha >= 0.45) p.va *= -1
         if (p.y < -4) { p.y = canvas.height + 4; p.x = Math.random() * canvas.width }
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(247,148,29,${p.alpha})`
+        ctx.fillStyle = p.gold
+          ? `rgba(212,160,23,${p.alpha})`
+          : `rgba(247,148,29,${p.alpha})`
         ctx.fill()
       })
       raf = requestAnimationFrame(draw)
@@ -86,25 +88,17 @@ export default function Hero({ isReady }: HeroProps) {
       ref={containerRef}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Deep cinematic background */}
-      <div ref={bgRef} className="absolute inset-0 will-change-transform">
-        <div className="absolute inset-0 bg-hero-gradient" />
-        {/* Subtle woven texture overlay */}
-        <div className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(247,148,29,0.4) 18px,rgba(247,148,29,0.4) 19px),
-                              repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(247,148,29,0.25) 18px,rgba(247,148,29,0.25) 19px)`,
-          }}
-        />
+      {/* Warm light hero background */}
+      <div ref={bgRef} className="absolute inset-0 will-change-transform bg-hero-light">
+        {/* Subtle weave texture */}
+        <div className="absolute inset-0 kente-bg opacity-60" />
       </div>
 
       {/* Floating particles */}
       <canvas ref={particlesRef} className="absolute inset-0 w-full h-full pointer-events-none" />
 
-      {/* Vignette edges */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(10,10,10,0.8) 100%)' }}
-      />
+      {/* Soft vignette edges (warm, not dark) */}
+      <div className="absolute inset-0 pointer-events-none hero-vignette" />
 
       {/* Main content */}
       <div className="relative z-10 container-site text-center flex flex-col items-center gap-6 pt-24">
@@ -122,7 +116,7 @@ export default function Hero({ isReady }: HeroProps) {
         {/* Headline line 1 */}
         <div className="overflow-hidden">
           <motion.h1
-            className="font-playfair font-bold text-brand-cream leading-[1.0]"
+            className="font-playfair font-bold text-text-head leading-[1.0]"
             style={{ fontSize: 'clamp(3.2rem, 7.5vw, 7rem)' }}
             initial={{ y: 100, opacity: 0 }}
             animate={isReady ? { y: 0, opacity: 1 } : {}}
@@ -132,10 +126,10 @@ export default function Hero({ isReady }: HeroProps) {
           </motion.h1>
         </div>
 
-        {/* Headline line 2 — orange italic */}
+        {/* Headline line 2 — shimmer orange */}
         <div className="overflow-hidden -mt-3">
           <motion.h1
-            className="font-playfair italic text-brand-orange leading-[1.0] text-shimmer"
+            className="font-playfair italic leading-[1.0] text-shimmer"
             style={{ fontSize: 'clamp(3.5rem, 9vw, 8.5rem)' }}
             initial={{ y: 100, opacity: 0 }}
             animate={isReady ? { y: 0, opacity: 1 } : {}}
@@ -147,8 +141,7 @@ export default function Hero({ isReady }: HeroProps) {
 
         {/* Kente divider */}
         <motion.div
-          className="w-24 kente-divider my-1"
-          style={{ height: 4 }}
+          className="w-24 kente-divider h-1 my-1"
           initial={{ scaleX: 0, opacity: 0 }}
           animate={isReady ? { scaleX: 1, opacity: 1 } : {}}
           transition={{ delay: baseDelay + stagger * 3, duration: 0.8 }}
@@ -156,7 +149,7 @@ export default function Hero({ isReady }: HeroProps) {
 
         {/* Subheadline */}
         <motion.p
-          className="font-cormorant text-brand-text-light max-w-xl leading-relaxed"
+          className="font-cormorant text-text-body max-w-xl leading-relaxed"
           style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.6rem)' }}
           initial={{ opacity: 0, y: 20 }}
           animate={isReady ? { opacity: 1, y: 0 } : {}}
@@ -184,7 +177,7 @@ export default function Hero({ isReady }: HeroProps) {
 
         {/* Stats row */}
         <motion.div
-          className="flex flex-wrap justify-center gap-8 mt-8 pt-8 border-t border-brand-dark-border/30"
+          className="flex flex-wrap justify-center gap-8 mt-8 pt-8 border-t border-[rgba(92,58,30,0.15)]"
           initial={{ opacity: 0 }}
           animate={isReady ? { opacity: 1 } : {}}
           transition={{ delay: baseDelay + stagger * 6, duration: 0.8 }}
@@ -197,7 +190,7 @@ export default function Hero({ isReady }: HeroProps) {
           ].map(({ num, label }) => (
             <div key={label} className="text-center">
               <p className="font-playfair text-2xl font-bold text-brand-orange">{num}</p>
-              <p className="font-inter text-[11px] text-brand-text-muted tracking-wide uppercase mt-0.5">{label}</p>
+              <p className="font-inter text-[11px] text-text-muted tracking-wide uppercase mt-0.5">{label}</p>
             </div>
           ))}
         </motion.div>
@@ -211,7 +204,7 @@ export default function Hero({ isReady }: HeroProps) {
         transition={{ delay: baseDelay + stagger * 7, duration: 0.8 }}
         onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
       >
-        <span className="font-inter text-[10px] text-brand-text-muted tracking-widest uppercase group-hover:text-brand-orange transition-colors duration-300">
+        <span className="font-inter text-[10px] text-text-muted tracking-widest uppercase group-hover:text-brand-orange transition-colors duration-300">
           Scroll
         </span>
         <motion.div
@@ -223,7 +216,7 @@ export default function Hero({ isReady }: HeroProps) {
       </motion.div>
 
       {/* Bottom kente strip */}
-      <div className="absolute bottom-0 left-0 right-0 kente-divider-animated" style={{ height: 5 }} />
+      <div className="absolute bottom-0 left-0 right-0 kente-divider-animated" />
     </section>
   )
 }

@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0A0A0A',
+  themeColor: '#F7941D',
   width:      'device-width',
   initialScale: 1,
 }
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${playfair.variable} ${cormorant.variable} ${inter.variable}`}
     >
-      <body className="bg-brand-black text-brand-text-light antialiased">
+      <body className="bg-surface text-text-head antialiased">
         <ScrollProgress />
         <Navbar />
         {children}

@@ -32,23 +32,20 @@ export default function DiningExperience() {
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} className="relative bg-brand-black py-24 md:py-36">
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 80% 20%, rgba(92,58,30,0.12) 0%, transparent 50%)' }}
-      />
+    <section ref={sectionRef} className="relative bg-surface-mid py-24 md:py-36">
+      <div className="absolute inset-0 pointer-events-none glow-earth-right" />
 
       <div className="container-site">
         <div className="exp-heading mb-16 max-w-2xl">
           <div className="flex items-center gap-4 mb-5">
-            <div className="kente-divider w-12" style={{ height: 4 }} />
+            <div className="kente-divider w-12 h-1" />
             <span className="eyebrow">The Experience</span>
           </div>
-          <h2 className="font-playfair text-brand-cream leading-[1.05]"
-            style={{ fontSize: 'clamp(2.2rem, 4.5vw, 4rem)' }}>
+          <h2 className="font-playfair text-text-head text-section-xl leading-[1.05]">
             Dining is{' '}
             <span className="italic text-brand-orange">Just the Beginning</span>
           </h2>
-          <p className="font-inter text-brand-text-muted text-base leading-relaxed mt-4">
+          <p className="font-inter text-text-muted text-base leading-relaxed mt-4">
             Six ways to experience the African continent through cuisine, culture, and community.
           </p>
         </div>
@@ -60,35 +57,33 @@ export default function DiningExperience() {
               <div
                 key={opt.id}
                 className={cn(
-                  'exp-card group relative overflow-hidden cursor-pointer',
-                  'border border-brand-dark-border hover:border-brand-orange/40',
+                  'exp-card group relative overflow-hidden cursor-pointer bg-white adinkra-card',
+                  'border border-[rgba(92,58,30,0.08)] hover:border-brand-orange/30',
                   'transition-all duration-500 hover:shadow-card-hover',
                   i === 4 ? 'lg:col-span-2' : '',
                 )}
               >
-                {/* Gradient fill */}
-                <div className={cn('absolute inset-0 bg-gradient-to-br transition-all duration-700', opt.gradient,
-                  'group-hover:scale-[1.03]')} />
+                {/* Subtle gradient fill on hover */}
+                <div className={cn(
+                  'absolute inset-0 bg-gradient-to-br transition-all duration-700 group-hover:scale-[1.03]',
+                  opt.gradient,
+                )} />
 
-                {/* Hover orange wash */}
-                <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/5 transition-all duration-500" />
+                {/* Top glow on hover */}
+                <div className="absolute inset-0 dining-card-glow opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                {/* Card glow */}
-                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(247,148,29,0.1) 0%, transparent 60%)' }} />
-
-                <div className="relative p-8 flex flex-col gap-5" style={{ minHeight: i === 4 ? 220 : 260 }}>
+                <div className={cn('relative p-8 flex flex-col gap-5', i === 4 ? 'min-h-[220px]' : 'min-h-[260px]')}>
                   {/* Icon */}
-                  <div className="w-12 h-12 border border-brand-orange/30 flex items-center justify-center group-hover:border-brand-orange group-hover:bg-brand-orange/10 transition-all duration-300">
+                  <div className="w-12 h-12 border border-brand-orange/25 bg-brand-orange/5 flex items-center justify-center group-hover:border-brand-orange group-hover:bg-brand-orange/10 transition-all duration-300">
                     {Icon && <Icon size={20} className="text-brand-orange" />}
                   </div>
 
                   <div className={cn('flex', i === 4 ? 'flex-row items-center gap-10' : 'flex-col gap-3')}>
                     <div>
-                      <h3 className="font-playfair text-xl text-brand-cream font-semibold group-hover:text-brand-orange transition-colors duration-300">
+                      <h3 className="font-playfair text-xl text-text-head font-semibold group-hover:text-brand-orange transition-colors duration-300">
                         {opt.title}
                       </h3>
-                      <p className="font-inter text-sm text-brand-text-muted mt-2 leading-relaxed">
+                      <p className="font-inter text-sm text-text-muted mt-2 leading-relaxed">
                         {opt.description}
                       </p>
                     </div>
@@ -111,10 +106,6 @@ export default function DiningExperience() {
                     </span>
                   </div>
                 </div>
-
-                {/* Corner adinkra mark */}
-                <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-brand-orange/20 group-hover:border-brand-orange/60 transition-colors duration-300" />
-                <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-brand-orange/20 group-hover:border-brand-orange/60 transition-colors duration-300" />
               </div>
             )
           })}
